@@ -9,7 +9,7 @@ import ChatList from "./other/ChatList";
 import { io } from "socket.io-client";
 const socket = io("https://chat-backend-wfsb.onrender.com");
 
-import {getInitials, getMember } from "./utils/functions";
+import { getInitials, getMember } from "./utils/functions";
 import RoomButton from "./RoomButton";
 interface Room {
   image_url?: string;
@@ -103,12 +103,15 @@ function ChatRoom() {
 
   const fetchMessages = async () => {
     if (roomId) {
-      const response = await fetch(`${"https://chat-backend-wfsb.onrender.com"}/messages/${roomId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `${"https://chat-backend-wfsb.onrender.com"}/messages/${roomId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       if (response.ok) {
         const json = await response.json();
@@ -129,17 +132,20 @@ function ChatRoom() {
   const handleCreateRoom = async (e: any) => {
     e.preventDefault();
 
-    const response = await fetch(`${"https://chat-backend-wfsb.onrender.com"}/create`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      method: "post",
-      body: JSON.stringify({
-        name: roomName,
-        image_url: roomImage,
-      }),
-    });
+    const response = await fetch(
+      `${"https://chat-backend-wfsb.onrender.com"}/create`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        method: "post",
+        body: JSON.stringify({
+          name: roomName,
+          image_url: roomImage,
+        }),
+      }
+    );
 
     if (response.ok) {
       const json = await response.json();
@@ -175,14 +181,17 @@ function ChatRoom() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(config);
-      console.log("use effect")
-      const response = await fetch(`${"https://chat-backend-wfsb.onrender.com"}/joined`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      console.log();
+      console.log("use effect");
+      const response = await fetch(
+        `${"https://chat-backend-wfsb.onrender.com"}/joined`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       if (response.ok) {
         const json = await response.json();
