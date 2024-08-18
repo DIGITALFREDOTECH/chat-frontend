@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async function (e: any) {
     e.preventDefault();
-    console.log({
-      email,
-      password,
-      full_name: fullName,
-    });
+    // console.log({
+    //   email,
+    //   password,
+    //   full_name: fullName,
+    // });
     const response = await fetch("http://localhost:3000/register", {
       headers: {
         "Content-Type": "application/json",
@@ -29,11 +29,12 @@ function SignUp() {
 
     const json = await response.json();
     if (response.ok) {
-      // localStorage.setItem('token', token);
+      localStorage.setItem('token', json.token);
+      localStorage.setItem("user",JSON.stringify(json.user));
       navigate("/chat-rooms");
     } else {
     }
-    console.log(json);
+    // console.log(json);
   };
 
   return (
