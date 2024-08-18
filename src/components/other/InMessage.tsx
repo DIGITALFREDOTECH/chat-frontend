@@ -1,4 +1,4 @@
-import { formatDate } from "../utils/functions";
+import { formatDate, getInitials } from "../utils/functions";
 
 interface IncomingMessageProps {
   message: string;
@@ -24,11 +24,19 @@ const IncomingMessage: React.FC<IncomingMessageProps> = ({
         </div>
 
         <div className="w-9 h-9 rounded-full flex items-center justify-center ml-2">
-          <img
-            src="https://placehold.co/200x/b7a8ff/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
-            alt="My Avatar"
-            className="w-8 h-8 rounded-full"
-          />
+          {username ? (
+            <div className="bg-gray-700 rounded-full w-8 h-8 p-5 flex justify-center items-center ">
+              <h1 className="text-lg text-white font-bold">
+                {getInitials(username)}
+              </h1>
+            </div>
+          ) : (
+            <img
+              src="https://placehold.co/200x/b7a8ff/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              alt="My Avatar"
+              className="w-8 h-8 rounded-full"
+            />
+          )}
         </div>
       </div>
     </>

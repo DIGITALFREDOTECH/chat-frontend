@@ -11,8 +11,8 @@ function App() {
         <Route index path="/" element={<Login />} />
         <Route index path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/chat-rooms/:roomId" element={<ChatRoom />} />
         <Route path="/chat-rooms" element={<ChatRoom />} />
-        <Route path="/rooms" element={<ChatRoom />} />
         {/* <Route path="/chat/:roomId" element={<Chat />} /> */}
       </Routes>
     </Router>

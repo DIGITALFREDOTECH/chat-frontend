@@ -1,4 +1,15 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
+export const config = {
+    backendURL: process.env.BACKEND_URL as string
+};
+
 export function formatDate(date: Date) {
+  let newDate = date;
+  if (typeof date == "string") {
+    newDate = new Date(date);
+  }
   const options: Intl.DateTimeFormatOptions = {
     day: "numeric",
     month: "short",
@@ -7,7 +18,7 @@ export function formatDate(date: Date) {
     minute: "2-digit",
     hour12: true,
   };
-  return new Intl.DateTimeFormat("en-US", options).format(date);
+  return new Intl.DateTimeFormat("en-US", options).format(newDate);
 }
 
 export function getInitials(data: string): string {
@@ -27,3 +38,32 @@ export function getMember(count: number): string {
     return `${count} Members`;
   }
 }
+
+type EncodedMessage = {
+  email: string;
+  chatId: string;
+  message: string;
+  userId: string;
+  event: boolean;
+  timestamp: Date;
+};
+
+export function encodeMessage(message: EncodedMessage): string {
+  return JSON.stringify(message);
+}
+
+export function decodeMessage(data: string): EncodedMessage {
+  const json = JSON.parse(data);
+  const message: EncodedMessage = {
+    email: json.email,
+    chatId: json.chatId,
+    message: json.message,
+    userId: json.userId,
+    event: json.event,
+    timestamp: json.timestamp,
+  };
+
+  return message;
+}
+
+

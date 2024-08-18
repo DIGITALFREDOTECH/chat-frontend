@@ -1,4 +1,4 @@
-import { formatDate } from "../utils/functions";
+import { formatDate, getInitials } from "../utils/functions";
 
 interface OutgoingMessageProps {
   message: string;
@@ -15,11 +15,17 @@ const OutgoingMessage: React.FC<OutgoingMessageProps> = ({
     <>
       <div className="flex mb-4 cursor-pointer">
         <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
-          <img
-            src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
-            alt="User Avatar"
-            className="w-8 h-8 rounded-full"
-          />
+          {username ? (
+            <h1 className="text-lg text-white font-bold">
+              {getInitials(username)}
+            </h1>
+          ) : (
+            <img
+              src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              alt="User Avatar"
+              className="w-8 h-8 rounded-full"
+            />
+          )}
         </div>
         <div className="flex flex-col">
           <span className="ml-4 text-sm p-2 text-gray-600">
