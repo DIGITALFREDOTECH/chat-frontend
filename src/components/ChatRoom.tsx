@@ -6,7 +6,7 @@ import { Avatar, Dropdown, Navbar } from "flowbite-react";
 
 import ChatList from "./other/ChatList";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3000");
+const socket = io("http://chat-backend111.netlify.app");
 
 import IncomingMessage from "./other/InMessage";
 import OutgoingMessage from "./other/outMessage";
@@ -82,7 +82,7 @@ function ChatRoom() {
   const [roomImage, setRoomImage] = useState("");
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")!));
   const [rooms, setRooms]: any = useState([]);
-  const [messages, setMessages]: any [] = useState([]);
+  const [messages, setMessages]: any[] = useState([]);
   const [message, setMessage] = useState("");
   const [currentRoom, setCurrentRoom] = useState({
     name: "Sports Fans ",
@@ -107,7 +107,7 @@ function ChatRoom() {
   const handleCreateRoom = async (e: any) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:3000/create", {
+    const response = await fetch("http://chat-backend111.netlify.app/create", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -153,12 +153,15 @@ function ChatRoom() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:3000/joined", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        "http://chat-backend111.netlify.app/joined",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       if (response.ok) {
         const json = await response.json();
@@ -183,7 +186,7 @@ function ChatRoom() {
         };
         console.log(messages);
         setMessages([...message, newMessages]);
-        console.log(messages)
+        console.log(messages);
       }
     });
 
