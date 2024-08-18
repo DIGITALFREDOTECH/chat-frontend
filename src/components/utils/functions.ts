@@ -1,10 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
-export const config = {
-    backendURL: process.env.BACKEND_URL as string
-};
-
 export function formatDate(date: Date) {
   let newDate = date;
   if (typeof date == "string") {
@@ -65,5 +58,3 @@ export function decodeMessage(data: string): EncodedMessage {
 
   return message;
 }
-
-

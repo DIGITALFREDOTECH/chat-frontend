@@ -15,22 +15,25 @@ function SignUp() {
     //   password,
     //   full_name: fullName,
     // });
-    const response = await fetch("http://localhost:3000/register", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        email,
-        password,
-        full_name: fullName,
-      }),
-    });
+    const response = await fetch(
+      "https://chat-backend-wfsb.onrender.com/register",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+          full_name: fullName,
+        }),
+      }
+    );
 
     const json = await response.json();
     if (response.ok) {
-      localStorage.setItem('token', json.token);
-      localStorage.setItem("user",JSON.stringify(json.user));
+      localStorage.setItem("token", json.token);
+      localStorage.setItem("user", JSON.stringify(json.user));
       navigate("/chat-rooms");
     } else {
     }

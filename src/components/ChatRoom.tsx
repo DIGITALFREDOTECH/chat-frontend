@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 
 import ChatList from "./other/ChatList";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3000");
+const socket = io("https://chat-backend-wfsb.onrender.com");
 
 import { config, getInitials, getMember } from "./utils/functions";
 import RoomButton from "./RoomButton";
@@ -103,7 +103,7 @@ function ChatRoom() {
 
   const fetchMessages = async () => {
     if (roomId) {
-      const response = await fetch(`${"http://localhost:3000"}/messages/${roomId}`, {
+      const response = await fetch(`${"https://chat-backend-wfsb.onrender.com"}/messages/${roomId}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -129,7 +129,7 @@ function ChatRoom() {
   const handleCreateRoom = async (e: any) => {
     e.preventDefault();
 
-    const response = await fetch(`${"http://localhost:3000"}/create`, {
+    const response = await fetch(`${"https://chat-backend-wfsb.onrender.com"}/create`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -177,7 +177,7 @@ function ChatRoom() {
     const fetchData = async () => {
       console.log(config);
       console.log("use effect")
-      const response = await fetch(`${"http://localhost:3000"}/joined`, {
+      const response = await fetch(`${"https://chat-backend-wfsb.onrender.com"}/joined`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
