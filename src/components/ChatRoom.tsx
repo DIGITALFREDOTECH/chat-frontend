@@ -9,7 +9,7 @@ import ChatList from "./other/ChatList";
 import { io } from "socket.io-client";
 const socket = io("https://chat-backend-wfsb.onrender.com");
 
-import { config, getInitials, getMember } from "./utils/functions";
+import {getInitials, getMember } from "./utils/functions";
 import RoomButton from "./RoomButton";
 interface Room {
   image_url?: string;
