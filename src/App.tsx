@@ -6,7 +6,6 @@ import ChatRoom from "./components/ChatRoom";
 
 function App() {
   return (
-     <Router>
       <Routes>
         <Route index path="/" element={<Login />} />
         <Route index path="/login" element={<Login />} />
@@ -14,7 +13,6 @@ function App() {
         <Route path="/chat-rooms/:roomId" element={<ChatRoom />} />
         {/* <Route path="/chat/:roomId" element={<Chat />} /> */}
       </Routes>
-    </Router>
   );
 }
 
