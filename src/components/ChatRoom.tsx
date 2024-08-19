@@ -352,8 +352,8 @@ function ChatRoom() {
       return (
         <>
           <div className="flex flex-col h-screen items-center justify-center">
-            <h1 className="text-3xl font-bold ">Select a chat room or</h1>
-            <h1 className="text-3xl font-bold ">
+            <h1 className="text-1xl font-bold ">Select a chat room or</h1>
+            <h1 className="text-1xl font-bold ">
               create a chat room to start charting
             </h1>
             <Button className="m-4" onClick={() => setOpenModal(true)}>
