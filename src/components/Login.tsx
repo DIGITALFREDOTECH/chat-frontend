@@ -33,7 +33,7 @@ function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-3xl font-bold mb-4">Chat Room Login</h1>
+      <h1 className="text-3xl font-bold mb-4">CHAT LOGIN</h1>
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
