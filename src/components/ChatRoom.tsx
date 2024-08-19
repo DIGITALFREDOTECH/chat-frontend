@@ -396,7 +396,7 @@ function ChatRoom() {
                   type="image_url"
                   value={roomImage}
                   onChange={(event) => setRoomImage(event.target.value)}
-                  required
+                  
                 />
               </div>
 
