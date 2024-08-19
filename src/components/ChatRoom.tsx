@@ -372,7 +372,7 @@ function ChatRoom() {
         <form onSubmit={handleCreateRoom}>
           <Modal.Body>
             <div className="space-y-6">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              <h3 className="text-1xl font-medium text-gray-900 dark:text-white">
                 Create New Chat Room
               </h3>
               <div>
