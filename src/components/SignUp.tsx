@@ -15,20 +15,17 @@ function SignUp() {
     //   password,
     //   full_name: fullName,
     // });
-    const response = await fetch(
-      "https://chat-backend-wfsb.onrender.com/register",
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          email,
-          password,
-          full_name: fullName,
-        }),
-      }
-    );
+    const response = await fetch("http://localhost:5000/register", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        password,
+        full_name: fullName,
+      }),
+    });
 
     const json = await response.json();
     if (response.ok) {
@@ -99,7 +96,7 @@ function SignUp() {
           />
         </div>
         <div className="mb-4">
-          <button className="bg-blue-700 p-2 w-full rounded-md text-white">
+          <button className="bg-blue-700 p-2 w-full rounded-md text-white" onClick={handleSubmit}>
             Register
           </button>
         </div>
