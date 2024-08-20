@@ -32,7 +32,7 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center bg-{url(./https://weedystoner.com/wp-content/uploads/2024/08/work.jpg)}  justify-center h-screen">
+    <div className="flex flex-col items-center bg-[url('https://weedystoner.com/wp-content/uploads/2024/08/work.jpg')]  justify-center h-screen">
       <h1 className="text-3xl font-bold mb-4">Chat Login</h1>
       <form
         onSubmit={handleSubmit}
