@@ -32,7 +32,7 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center bg-[url('https://weedystoner.com/wp-content/uploads/2024/08/work.jpg')]  justify-center h-screen">
+    <div className="flex flex-col items-center bg-red-700  justify-center h-screen">
       <h1 className="text-3xl font-bold mb-4">Chat Login</h1>
       <form
         onSubmit={handleSubmit}
@@ -57,7 +57,7 @@ function Login() {
         </div>
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-#d8d8d8-700 text-sm font-bold mb-2"
             htmlFor="email"
           >
             Password
