@@ -73,7 +73,7 @@ function Login() {
           />
         </div>
         <div className="mb-4">
-          <button className="bg-blue-700 p-2 w-full rounded-md text-white">
+          <button className="bg-red-700 p-2 w-full rounded-md text-white">
             Login
           </button>
         </div>
