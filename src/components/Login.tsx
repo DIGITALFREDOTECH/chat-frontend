@@ -32,7 +32,7 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center bg-red-700  justify-center h-screen">
+    <div className="bg-[url('/img/work.jpg')] flex flex-col items-center  justify-center h-screen">
       <h1 className="text-3xl font-bold mb-4">Chat Login</h1>
       <form
         onSubmit={handleSubmit}
