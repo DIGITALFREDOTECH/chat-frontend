@@ -116,8 +116,8 @@ function ChatRoom() {
       if (response.ok) {
         const json = await response.json();
         console.log(json);
-        setMessages(json.messages);
         setCurrentRoom(json.room);
+        setMessages(json.messages);
       }
     }
   };
@@ -132,20 +132,17 @@ function ChatRoom() {
   const handleCreateRoom = async (e: any) => {
     e.preventDefault();
 
-    const response = await fetch(
-      `${"https://chat-backend-wfsb.onrender.com"}/create`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        method: "post",
-        body: JSON.stringify({
-          name: roomName,
-          image_url: roomImage,
-        }),
-      }
-    );
+    const response = await fetch(`${"https://chat-backend-wfsb.onrender.com"}/create`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      method: "post",
+      body: JSON.stringify({
+        name: roomName,
+        image_url: roomImage,
+      }),
+    });
 
     if (response.ok) {
       const json = await response.json();
@@ -153,9 +150,10 @@ function ChatRoom() {
         ...rooms,
         {
           name: json.name,
-          image: json.image_url,
+          image: json.image,
           key: json._id,
-          userCount: json.userCOunt,
+          _id: json._id,
+          userCount: json.userCount,
         },
       ];
       setRooms(newRooms);
@@ -181,17 +179,13 @@ function ChatRoom() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log();
       console.log("use effect");
-      const response = await fetch(
-        `${"https://chat-backend-wfsb.onrender.com"}/joined`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await fetch(`${"https://chat-backend-wfsb.onrender.com"}/joined`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       if (response.ok) {
         const json = await response.json();
@@ -199,25 +193,39 @@ function ChatRoom() {
         setRooms(json);
       }
     };
-
+    function checkAuth() {
+      if (!localStorage.getItem("token")) {
+        navigate("/");
+        console.log("check auth");
+      }
+    }
+    checkAuth();
     fetchMessages();
+
     fetchData();
 
     socket.on("receive_message", (data: string) => {
       console.log(data);
 
       const dataMessage = JSON.parse(data);
-      if (dataMessage.roomId === currentRoom?._id) {
-        console.log("this is the chat id");
-        const newMessages = {
-          timestamp: new Date(dataMessage.timestamp),
-          message: dataMessage.message,
-          username: dataMessage.email,
-          key: dataMessage.key,
-        };
-        console.log(messages);
-        setMessages([...message, newMessages]);
-        console.log(messages);
+
+      console.log("this is the chat id");
+      const newMessages = {
+        timestamp: new Date(dataMessage.timestamp),
+        message: dataMessage.message,
+        username: dataMessage.email,
+        key: dataMessage.key,
+        email: dataMessage.email,
+        event: dataMessage.event,
+      };
+      console.log(messages);
+      setMessages((state: any) => [...state, newMessages]);
+      // console.log(messages);
+    });
+
+    socket.on("events", (data: any) => {
+      if (data.user.email === user.email) {
+        setRooms((state: any) => [...state, data.room]);
       }
     });
 
@@ -259,17 +267,10 @@ function ChatRoom() {
             <div className="flex md:order-2">
               <button
                 onClick={() => {
-                  socket.emit(
-                    "send_message",
-                    JSON.stringify({
-                      message: `${user.full_name} Left`,
-                      userId: user._id,
-                      email: user.email,
-                      timestamp: new Date(),
-                      roomId: currentRoom?._id,
-                      event: true,
-                    })
-                  );
+                  socket.emit("leave_room", {
+                    room: currentRoom,
+                    user: user,
+                  });
                 }}
                 className="bg-red-700 text-white px-4 py-2 rounded-md mx-4"
               >
@@ -301,50 +302,41 @@ function ChatRoom() {
             </div>
             <Navbar.Collapse></Navbar.Collapse>
           </Navbar>
-          <div className="h-screen overflow-y-auto p-4 pb-36 mb-20">
+          <div className="h-screen overflow-y-auto p-4 pb-36 mb-20 bg-slate-95">
             <ChatList email={user.email} messages={messages} />
           </div>
 
           <footer className="bg-white border-t border-gray-300 p-4 absolute bottom-0 w-3/4">
-            <form className="flex items-center" onSubmit={handleMessageSent}>
-              {roomExist(rooms, currentRoom?._id!) ? (
-                <>
-                  {" "}
-                  <input
-                    type="text"
-                    placeholder="Type a message..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
-                  />
-                  <button
-                    type="submit"
-                    className="bg-indigo-500 text-white px-4 py-2 rounded-md ml-2"
-                  >
-                    Send
-                  </button>{" "}
-                </>
-              ) : (
+            {roomExist(rooms, currentRoom?._id!) ? (
+              <form className="flex items-center" onSubmit={handleMessageSent}>
+                <input
+                  type="text"
+                  placeholder="Type a message..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  className="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
+                />
                 <button
-                  onClick={() => {
-                    socket.emit(
-                      "send_message",
-                      JSON.stringify({
-                        message: `${user.full_name} Left`,
-                        userId: user._id,
-                        email: user.email,
-                        timestamp: new Date(),
-                        roomId: currentRoom?._id,
-                        event: true,
-                      })
-                    );
-                  }}
-                  className="bg-green-500 text-white px-4 py-2 rounded-md ml-2"
+                  type="submit"
+                  className="bg-indigo-500 text-white px-4 py-2 rounded-md ml-2"
                 >
-                  Join Room
+                  Send
                 </button>
-              )}
-            </form>
+              </form>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  socket.emit("join_room", {
+                    room: currentRoom,
+                    user: user,
+                  });
+                }}
+                className="bg-green-500 text-white px-4 py-2 rounded-md ml-2"
+              >
+                Join Room
+              </button>
+            )}
           </footer>
         </>
       );
@@ -352,8 +344,8 @@ function ChatRoom() {
       return (
         <>
           <div className="flex flex-col h-screen items-center justify-center">
-            <h1 className="text-1xl font-bold ">Select a chat room or</h1>
-            <h1 className="text-1xl font-bold ">
+            <h1 className="text-3xl font-bold ">Select a chat room or</h1>
+            <h1 className="text-3xl font-bold ">
               create a chat room to start charting
             </h1>
             <Button className="m-4" onClick={() => setOpenModal(true)}>
@@ -372,7 +364,7 @@ function ChatRoom() {
         <form onSubmit={handleCreateRoom}>
           <Modal.Body>
             <div className="space-y-6">
-              <h3 className="text-1xl font-medium text-gray-900 dark:text-white">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white">
                 Create New Chat Room
               </h3>
               <div>
@@ -396,7 +388,7 @@ function ChatRoom() {
                   type="image_url"
                   value={roomImage}
                   onChange={(event) => setRoomImage(event.target.value)}
-                  
+                  required
                 />
               </div>
 
@@ -428,6 +420,7 @@ function ChatRoom() {
                     image={room.image}
                     followers={room.userCount}
                     onClick={function () {
+                      setCurrentRoom(room);
                       navigate(`/chat-rooms/${room._id}`);
                       fetchMessages();
                     }}
