@@ -10,34 +10,34 @@ interface Chats {
 }
 
 const ChatList: React.FC<Chats> = ({ messages, email }) => {
-  //   console.log(messages);
+  // console.log(email);
   return (
     <>
-      {messages.map((message) => {
+      {messages.map((message, index) => {
         if (!message.event) {
           if (message.email === email) {
+            return (
+              <IncomingMessage
+                key={index}
+                timestamp={message.timestamp}
+                message={message.message}
+                username={message.name}
+              />
+            );
+          } else {
             return (
               <OutgoingMessage
                 timestamp={message.timestamp}
                 message={message.message}
                 username={message.name}
-                key={message.key}
-              />
-            );
-          } else {
-            return (
-              <IncomingMessage
-                key={message.key}
-                timestamp={message.timestamp}
-                message={message.message}
-                username={message.name}
+                key={index}
               />
             );
           }
         } else {
           return (
             <OtherMessage
-              key={message.key}
+              key={index}
               timestamp={message.timestamp}
               message={message.message}
               username={message.name}
